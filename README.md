@@ -21,11 +21,12 @@ Este projeto tem como objetivo a construção de uma API para o gerenciamento de
 ```
 composer install
 ```
-3. Executar as migrations
+3. Alterar o arquivo .env com as informações do banco de dados
+4. Executar as migrations
 ```
 php artisan migrate
 ```
-4. Executar a aplicação
+5. Executar a aplicação
 ```
 php artisan serve
 ```
