@@ -5,25 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Bike;
 
-class BikesController extends Controller
+class BikesController extends ApiController
 {
     public function index()
     {
         $bikes = Bike::all();
-        return response()->json($bikes);
+        return $this->successResponse($bikes);
     }
 
     public function show($id)
     {
         $bike = Bike::find($id);
 
-        if(!$bike) {
-            return response()->json([
-                'message' => 'Record not found'
-            ], 404);
-        }
+        if(!$bike)
+            return $this->notFoundResponse();
 
-        return response()->json($bike);
+        return $this->successResponse($bike);
     }
 
     public function store(Request $request)
@@ -32,50 +29,42 @@ class BikesController extends Controller
         $bike->fill($request->all());
         $bike->save();
 
-        return response()->json($bike, 201);
+        return $this->createdResponse($bike);
     }
 
     public function update(Request $request, $id)
     {
         $bike = Bike::find($id);
 
-        if(!$bike) {
-            return response()->json([
-                'message' => 'Record not found'
-            ], 404);
-        }
+        if(!$bike)
+            return $this->notFoundResponse();
 
         $bike->fill($request->all());
         $bike->save();
 
-        return response()->json($bike);
+        return $this->successResponse($bike);
     }
 
     public function destroy($id)
     {
         $bike = Bike::find($id);
 
-        if(!$bike) {
-            return response()->json([
-                'message' => 'Record not found'
-            ], 404);
-        }
+        if(!$bike)
+            return $this->notFoundResponse();
 
         $bike->delete();
+        return $this->successResponse();
     }
 
     public function updateDescription(Request $request, $id) {
         $bike = Bike::find($id);
 
-        if(!$bike) {
-            return response()->json([
-                'message' => 'Record not found'
-            ], 404);
-        }
+        if(!$bike)
+            return $this->notFoundResponse();
 
-        $bike->description = $request->description;
+        $bike->description = $request->input('description');
         $bike->save();
 
-        return response()->json($bike, 200);
+        return $this->successResponse($bike);
     }
 }
